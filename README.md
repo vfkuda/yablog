@@ -12,6 +12,9 @@
 * docker
 * just
   
+## подробнее про сборку
+[Developer README](./README.DEV.md)
+
 ## референсы
 - frontend: `http://localhost:8081`
 - backend HTTP: `http://localhost:8080`
