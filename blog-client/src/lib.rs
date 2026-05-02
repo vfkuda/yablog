@@ -1,6 +1,6 @@
+pub mod error;
 mod grpc_client;
 mod http_client;
-pub mod error;
 
 pub mod blog {
     tonic::include_proto!("blog");

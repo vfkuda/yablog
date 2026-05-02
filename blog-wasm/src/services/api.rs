@@ -54,10 +54,7 @@ pub async fn login_request(
 
 pub async fn load_posts_request(server_url: &str) -> Result<PostsListResponse, String> {
     let url = format!("{server_url}/api/posts");
-    let response = Request::get(&url)
-        .send()
-        .await
-        .map_err(map_request_error)?;
+    let response = Request::get(&url).send().await.map_err(map_request_error)?;
 
     parse_json_response(response).await
 }

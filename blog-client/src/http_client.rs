@@ -122,7 +122,10 @@ impl BlogTransport for HttpBlogClient {
     }
 
     async fn list_posts(&mut self, limit: i32, offset: i32) -> Result<PostsPage, BlogClientError> {
-        let url = format!("{}/api/posts?limit={}&offset={}", self.base_url, limit, offset);
+        let url = format!(
+            "{}/api/posts?limit={}&offset={}",
+            self.base_url, limit, offset
+        );
         let resp = self.client.get(url).send().await?;
         let page: HttpPostsListResponse = Self::parse_http_json(resp).await?;
         Ok(page.into_posts_page())
