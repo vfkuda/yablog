@@ -1,0 +1,29 @@
+FROM rust:1.88-bookworm AS builder
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    pkg-config \
+    libssl-dev \
+    ca-certificates \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN rustup target add wasm32-unknown-unknown
+
+RUN cargo install wasm-pack --locked
+
+COPY blog-wasm blog-wasm
+
+WORKDIR /app/blog-wasm
+# Install the exact wasm-bindgen-cli version used by the project.
+RUN cargo install wasm-bindgen-cli --locked --version 0.2.117
+
+RUN wasm-pack build --release --target web --out-dir pkg
+
+FROM nginx:1.27-alpine
+
+COPY --from=builder /app/blog-wasm/pkg /usr/share/nginx/html/pkg
+COPY --from=builder /app/blog-wasm/index.html /usr/share/nginx/html/index.html
+
+EXPOSE 80

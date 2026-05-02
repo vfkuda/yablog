@@ -1,0 +1,31 @@
+[package]
+name = "blog-server"
+version = "0.1.0"
+edition = "2024"
+
+[build-dependencies]
+tonic-build.workspace = true
+prost-build.workspace = true
+
+[dependencies]
+tonic.workspace = true
+prost.workspace = true
+prost-types.workspace = true
+tonic-reflection= "0.12"
+serde.workspace = true
+serde_json.workspace = true
+anyhow.workspace = true
+thiserror.workspace = true
+chrono.workspace = true
+uuid = { version = "1", features = ["serde", "v4"] }
+tokio.workspace = true
+sqlx = { version = "0.8", features = ["runtime-tokio-rustls", "postgres", "chrono"] }
+jsonwebtoken = "9"
+actix-web = "4"
+actix-cors = "0.7"
+actix-web-httpauth = "0.8"
+argon2 = "0.5"
+rand_core = { version = "0.6", features = ["std"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+dotenvy.workspace = true

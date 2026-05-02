@@ -1,0 +1,29 @@
+FROM rust:1.88-alpine3.20 AS builder
+
+WORKDIR /app
+
+RUN apk add --no-cache musl-dev protobuf protobuf-dev
+
+COPY Cargo.toml Cargo.lock ./
+COPY blog-server/Cargo.toml blog-server/Cargo.toml
+COPY blog-client/Cargo.toml blog-client/Cargo.toml
+COPY blog-cli/Cargo.toml blog-cli/Cargo.toml
+COPY blog-wasm/Cargo.toml blog-wasm/Cargo.toml
+COPY src src
+COPY blog-server blog-server
+COPY blog-client blog-client
+COPY blog-cli blog-cli
+COPY blog-wasm blog-wasm
+
+RUN cargo build --release --package blog-server
+
+FROM alpine:3.20
+
+RUN apk add --no-cache ca-certificates
+
+WORKDIR /app
+COPY --from=builder /app/target/release/blog-server /usr/local/bin/blog-server
+
+EXPOSE 8080 50051
+
+CMD ["blog-server"]

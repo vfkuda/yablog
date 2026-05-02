@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YaBlog Dioxus</title>
+  </head>
+  <body>
+    <div id="main"></div>
+
+    <script type="module">
+      import init from "./pkg/blog_wasm.js";
+
+      init();
+    </script>
+  </body>
+</html>
